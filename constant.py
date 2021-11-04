@@ -12,5 +12,13 @@ dk_list = [
     ['201710010216', '040490', '2995739126@qq.com']
 ]
 
+
+"""
+path = os.getcwd()
+work_path = path.split('/main')[0]
+sys.path.append(work_path)
+sys.path.append(work_path + '/main')
+"""
+
 if __name__ == '__main__':
     pass
