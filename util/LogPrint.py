@@ -8,7 +8,8 @@
 """
 import logging
 import sys
-from datetime import datetime
+from datetime import datetime, timezone
+from pytz import timezone as tz
 
 
 class LogPrint(logging.Logger):
@@ -19,7 +20,8 @@ class LogPrint(logging.Logger):
 
     @staticmethod
     def log_for_time():
-        print("当前时间：" + datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        now = datetime.now().replace(tzinfo=timezone.utc).astimezone(tz=tz('Asia/Shanghai'))
+        print("当前时间：" + now.strftime('%Y-%m-%d %H:%M:%S'))
 
 
 if __name__ == '__main__':
