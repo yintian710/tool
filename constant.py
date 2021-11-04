@@ -7,18 +7,10 @@
 @Desc
 """
 
-ctrip_version = 3.0
-ip_version = 1.1
-
-file_dic = {
-    'ctrip': 'web_ctrip.zip',
-    'ip': 'proxy.zip',
-}
-
-version_dic = {
-    'ctrip': ctrip_version,
-    'ip': ip_version,
-}
+dk_list = [
+    ['201904010209', '146049', '965097474@qq.com'],
+    ['201710010216', '040490', '2995739126@qq.com']
+]
 
 if __name__ == '__main__':
     pass
