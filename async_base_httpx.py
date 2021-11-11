@@ -53,6 +53,9 @@ class AsyncBaseHttpx:
         str1 = f'{self.str_}返回数据--->{self.return_data}'
         return str1
 
+    def __del__(self):
+        asyncio.run(self.session.aclose())
+
     def _print(self, *str1):
         str2 = ''
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -74,17 +77,12 @@ class AsyncBaseHttpx:
         return md.hexdigest()
 
 
-async def test():
-    AB = AsyncBaseHttpx('test')
-    # async with AB.session.get('https://www.baidu.com') as res:
-    #     print(await res.text())
-    await AB.set_ip()
-    await AB.re_session()
-    res = await AB.session.get('https://ip.cn/api/index?ip=&type=0')
-    print()
-    # await AB.session.close()
+def a():
+    cls = AsyncBaseHttpx('1')
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(cls.session.get('https://baidu.com'))
 
 
 if __name__ == '__main__':
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(test())
+    a()
+    # del cls
