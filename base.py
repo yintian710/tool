@@ -10,11 +10,14 @@ import hashlib
 import random
 from datetime import datetime
 
+import requests
+
 
 class Base:
     def __init__(self, task, nums=None):
         self.nums = nums if nums else random.randint(1000, 9999)
         self.str_ = f'{task}-{self.nums}-{self.__class__.__name__}-'
+        self.session = requests.session()
         self.try_times = 0
         self.return_data = {}
         self.cookies = {}
@@ -37,6 +40,9 @@ class Base:
         str1 = f'{self.str_}返回数据--->{self.return_data}'
         return str1
 
+    def __del__(self):
+        self.session.close()
+
     def _print(self, *str1):
         str2 = ''
         now = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
@@ -55,4 +61,4 @@ class Base:
 
 
 if __name__ == '__main__':
-    pass
+    b = Base(1)
