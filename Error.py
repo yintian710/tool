@@ -105,3 +105,13 @@ class MqValueError(Exception):
 class ProceDataError(Exception):
     def __init__(self, message):
         self.message = message
+
+
+class MySqlConnectionError(Exception):
+    def __init__(self, message):
+        self.message = message
+
+
+class NoDkError(Exception):
+    def __init__(self, message='No dk user!'):
+        self.message = message

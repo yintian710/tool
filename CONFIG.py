@@ -18,7 +18,9 @@ json_path = os.path.join(work_path, 'json_data')
 file_path = os.path.join(work_path, 'file')
 
 tool_url = 'http://tool.yintian.icu:7100'
-master_email = 'yintian710@gmail.com'
+# tool_url = 'http://localhost:7100'
+# master_email = 'yintian710@gmail.com'
+master_email = '1327960105@qq.com'
 
 if __name__ == '__main__':
     pass
