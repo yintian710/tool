@@ -8,7 +8,6 @@
 """
 import asyncio
 import hashlib
-import json
 import random
 from datetime import datetime
 
@@ -52,9 +51,6 @@ class AsyncBaseHttpx:
     def __str__(self):
         str1 = f'{self.str_}返回数据--->{self.return_data}'
         return str1
-
-    def __del__(self):
-        asyncio.run(self.session.aclose())
 
     def _print(self, *str1):
         str2 = ''
