@@ -115,3 +115,13 @@ class MySqlConnectionError(Exception):
 class NoDkError(Exception):
     def __init__(self, message='No dk user!'):
         self.message = message
+
+
+class SendEmailError(Exception):
+    def __init__(self, message):
+        self.message = message
+
+
+class RedisSetError(Exception):
+    def __init__(self, message):
+        self.message = message

@@ -1,9 +1,7 @@
 # coding=utf-8
-import pymysql
 
 import MySQLdb
 
-from pymysql.cursors import DictCursor
 from dbutils.pooled_db import PooledDB
 
 from . import db_config as config
@@ -62,7 +60,7 @@ class Mysql(object):
             self._cursor.execute(sql)
             records = self._cursor.fetchall()
             records = list(records)
-            return self.__alalis(records)
+            return self.__alias(records)
         except MySQLdb.Error as e:
             log_for_error('MySQL execute failed! ERROR', e)
 
@@ -82,7 +80,7 @@ class Mysql(object):
             # sys.exit()
 
     # 创建表
-    # tablename:表名称,attr_dict:属性键值对,constraint:主外键约束
+    # table_name:表名称,attr_dict:属性键值对,constraint:主外键约束
     # attr_dict:{'book_name':'varchar(200) NOT NULL'...}
     # constraint:PRIMARY KEY(`id`)
     def _create_table(self, table, attr_dict, constraint):
@@ -126,7 +124,7 @@ class Mysql(object):
     def _insert_dic(self, table, attrs):
         """
         @summary: 向数据表插入一条记录
-        @param attrs = {"colNmae:value"} :要插入的属性：数据值
+        @param attrs = {"col_name:value"} :要插入的属性：数据值
         """
         attrs_sql = '(' + ','.join(attrs.keys()) + ')'
         value_str = self._transfer_content(attrs.values())  # ','.join(attrs.values())
@@ -195,7 +193,7 @@ class Mysql(object):
     def select(self, sql):
         log_print(sql)
         result = self._execute(sql)
-        return self.__alalis(result)
+        return self.__alias(result)
 
     def __get_insert_id(self):
         """
@@ -203,14 +201,14 @@ class Mysql(object):
         """
         self._cursor.execute("SELECT @@IDENTITY AS id")
         result = self._cursor.fetchall()
-        return result[0]['id']
+        return result[0]
 
     def __query(self, sql, param=None):
         if param is None:
             count = self._cursor.execute(sql)
         else:
             count = self._cursor.execute(sql, param)
-        return self.__alalis(count)
+        return self.__alias(count)
 
     def get_all(self, sql, param=None):
         """
@@ -227,7 +225,7 @@ class Mysql(object):
             result = self._cursor.fetchall()
         else:
             result = False
-        return self.__alalis(result)
+        return self.__alias(result)
 
     def get_one(self, sql, param=None):
         """
@@ -244,7 +242,7 @@ class Mysql(object):
             result = self._cursor.fetchone()
         else:
             result = False
-        return self.__alalis(result)
+        return self.__alias(result)
 
     def get_many(self, sql, num, param=None):
         """
@@ -260,7 +258,7 @@ class Mysql(object):
             result = self._cursor.fetchmany(num)
         else:
             result = False
-        return self.__alalis(result)
+        return self.__alias(result)
 
     def update(self, sql, param=None):
         """
@@ -307,6 +305,5 @@ class Mysql(object):
         self._conn.close()
 
     @staticmethod
-    def __alalis(data):
+    def __alias(data):
         return deal_with_bytes_2_str(data)
-

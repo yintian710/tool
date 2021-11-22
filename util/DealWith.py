@@ -26,4 +26,4 @@ def deal_with_bytes_2_str(data):
 
 
 if __name__ == '__main__':
-    print(deal_with_bytes_2_str('123'))
+    print(deal_with_bytes_2_str(''))

@@ -7,7 +7,7 @@
 @Desc：
 """
 
-HOST = 'tool.yintian.icu'
+HOST = '101.35.113.218'
 PASSWORD = '282610'
 PORT = 6380
 DB = 0

@@ -39,4 +39,5 @@ class RedisCli:
 
 
 if __name__ == '__main__':
-    pass
+    cls = RedisCli()
+    cls.get('1')

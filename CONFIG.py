@@ -16,6 +16,7 @@ work_path = os.path.join(work_path, PROJECT_NAME)
 tool_path = os.path.join(work_path, 'tool')
 json_path = os.path.join(work_path, 'json_data')
 file_path = os.path.join(work_path, 'file')
+log_path = os.path.join(work_path, 'log')
 
 tool_url = 'http://tool.yintian.icu:7100'
 # tool_url = 'http://localhost:7100'
