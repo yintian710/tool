@@ -40,7 +40,7 @@ class BaseCv:
         return img
 
     def file2b64(self, path):
-        with open(path, 'r') as f:
+        with open(path, 'rb') as f:
             img = f.read()
         return self.bytes2b64(img)
 
@@ -76,7 +76,8 @@ class BaseCv:
         cor = self.compare_hist(img1, img2)
         if cor > 0.90:
             # print(cor3)
-            return True
+            return True, cor
+        return False, cor
 
     def diff_b(self, img1_b64, img2_b64):
         img1_b = base64.b64decode(img1_b64)
@@ -89,7 +90,8 @@ class BaseCv:
         cor = self.compare_hist(img1, img2)
         if cor > 0.90:
             # print(cor3)
-            return True
+            return True, cor
+        return False, cor
 
     def __str__(self):
         str1 = f'{self.str_}'
