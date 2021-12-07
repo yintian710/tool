@@ -13,7 +13,7 @@ import numpy as np
 from cv2 import imdecode, imread, Canny, cvtColor, matchTemplate, minMaxLoc, rectangle, \
     imwrite, COLOR_GRAY2RGB, TM_CCOEFF_NORMED, cv2, resize
 
-from tool.util import log_print
+from tool.util import log_print, Result
 
 
 class BaseCv:
@@ -22,6 +22,7 @@ class BaseCv:
         self.str_ = f'{task}-{self.nums}-{self.__class__.__name__}-'
         self.try_times = 0
         self.error_message = ''
+        self.result = Result()
         self._print('初始化成功')
 
     @staticmethod
@@ -32,6 +33,16 @@ class BaseCv:
         :return: cv2图像，numpy.ndarray
         """
         return imdecode(np.array(bytearray(img), dtype='uint8'), cv2.IMREAD_UNCHANGED)
+
+    @staticmethod
+    def bytes2b64(img):
+        img = base64.b64encode(img)
+        return img
+
+    def file2b64(self, path):
+        with open(path, 'r') as f:
+            img = f.read()
+        return self.bytes2b64(img)
 
     def base642cv(self, img):
         """
@@ -54,7 +65,20 @@ class BaseCv:
         orc = np.corrcoef(img1, img2)
         return orc[0, 1]
 
-    def diff_b64_1(self, img1_b64, img2_b64):
+    def diff_b64(self, img1_b64, img2_b64):
+        img1_b = base64.b64decode(img1_b64)
+        img2_b = base64.b64decode(img2_b64)
+        img1 = cv2.imdecode(np.array(bytearray(img1_b), dtype='uint8'), cv2.COLOR_RGB2BGR)
+        img2 = cv2.imdecode(np.array(bytearray(img2_b), dtype='uint8'), cv2.COLOR_RGB2BGR)
+        gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+        gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+        # cv2.imwrite('1.png', m)
+        cor = self.compare_hist(img1, img2)
+        if cor > 0.90:
+            # print(cor3)
+            return True
+
+    def diff_b(self, img1_b64, img2_b64):
         img1_b = base64.b64decode(img1_b64)
         img2_b = base64.b64decode(img2_b64)
         img1 = cv2.imdecode(np.array(bytearray(img1_b), dtype='uint8'), cv2.COLOR_RGB2BGR)
@@ -68,8 +92,11 @@ class BaseCv:
             return True
 
     def __str__(self):
-        str1 = f'{self.str_}返回数据--->{self.return_data}'
+        str1 = f'{self.str_}'
         return str1
+
+    def call_print(self, *str1):
+        self._print(*str1)
 
     def _print(self, *str1):
         log_print(self.str_, *str1)
