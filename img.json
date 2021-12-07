@@ -13,8 +13,17 @@
     "clip": {
       "x": 79,
       "y": 848,
-      "width": 65,
-      "height": 65
+      "width": 25,
+      "height": 31
+    }
+  },
+  "meet_200": {
+    "name": "meet_200",
+    "clip": {
+      "x": 122,
+      "y": 505,
+      "width": 57,
+      "height": 25
     }
   }
 }
