@@ -20,6 +20,9 @@ log_path = os.path.join(work_path, 'log')
 img_path = os.path.join(tool_path, 'img')
 img_json_path = os.path.join(tool_path, 'img.json')
 
+# game_url = 'http://127.0.0.1:7105'
+game_url = 'http://192.168.0.181:7105'
+
 tool_url = 'http://tool.yintian.icu:7100'
 # tool_url = 'http://localhost:7100'
 # master_email = 'yintian710@gmail.com'

@@ -7,5 +7,14 @@
       "width": 712,
       "height": 116
     }
+  },
+  "energy": {
+    "name": "energy",
+    "clip": {
+      "x": 79,
+      "y": 848,
+      "width": 65,
+      "height": 65
+    }
   }
 }
