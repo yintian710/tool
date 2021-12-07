@@ -21,8 +21,6 @@ class BaseCv:
         self.nums = nums if nums else randint(1000, 9999)
         self.str_ = f'{task}-{self.nums}-{self.__class__.__name__}-'
         self.try_times = 0
-        self.return_data = {}
-        self.cookies = {}
         self.error_message = ''
         self._print('初始化成功')
 
@@ -44,6 +42,30 @@ class BaseCv:
         img = base64.b64decode(img)
         img = self.bytes2cv(img)
         return img
+
+    @staticmethod
+    def compare_hist(img1, img2):
+        img1 = np.float32(img1)
+        img2 = np.float32(img2)
+        # img1 = np.frombuffer(img1, dtype=np.uint8)
+        # img2 = np.frombuffer(img2, dtype=np.uint8)
+        img1 = np.ndarray.flatten(img1)
+        img2 = np.ndarray.flatten(img2)
+        orc = np.corrcoef(img1, img2)
+        return orc[0, 1]
+
+    def diff_b64_1(self, img1_b64, img2_b64):
+        img1_b = base64.b64decode(img1_b64)
+        img2_b = base64.b64decode(img2_b64)
+        img1 = cv2.imdecode(np.array(bytearray(img1_b), dtype='uint8'), cv2.COLOR_RGB2BGR)
+        img2 = cv2.imdecode(np.array(bytearray(img2_b), dtype='uint8'), cv2.COLOR_RGB2BGR)
+        gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+        gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+        # cv2.imwrite('1.png', m)
+        cor = self.compare_hist(img1, img2)
+        if cor > 0.90:
+            # print(cor3)
+            return True
 
     def __str__(self):
         str1 = f'{self.str_}返回数据--->{self.return_data}'
