@@ -40,7 +40,7 @@ class BaseCv:
         return img
 
     def file2b64(self, path):
-        with open(path, 'r') as f:
+        with open(path, 'rb') as f:
             img = f.read()
         return self.bytes2b64(img)
 
