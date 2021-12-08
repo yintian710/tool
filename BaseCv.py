@@ -12,6 +12,7 @@ import numpy as np
 
 from cv2 import imdecode, imread, Canny, cvtColor, matchTemplate, minMaxLoc, rectangle, \
     imwrite, COLOR_GRAY2RGB, TM_CCOEFF_NORMED, cv2, resize
+from pytesseract import pytesseract
 
 from tool.util import log_print, Result
 
@@ -55,6 +56,18 @@ class BaseCv:
         return img
 
     @staticmethod
+    def iv2num(img):
+        str_num = pytesseract.image_to_string(img, config='--psm 6 --oem 3 -c tessedit_char_whitelist=0123456789./').strip()
+        if not str_num:
+            raise
+        return str_num
+
+    @staticmethod
+    def iv2path(img, path):
+        imwrite(filename=path, img=img)
+
+
+    @staticmethod
     def compare_hist(img1, img2):
         img1 = np.float32(img1)
         img2 = np.float32(img2)
@@ -92,6 +105,31 @@ class BaseCv:
             # print(cor3)
             return True, cor
         return False, cor
+
+    def select_img(self, img1_b64, img2_b64):
+        img1_b = base64.b64decode(img1_b64)
+        bg_img = self.bytes2cv(img1_b)
+        img2_b = base64.b64decode(img2_b64)
+        tp_img = self.bytes2cv(img2_b)
+        try:
+            bg_edge = Canny(bg_img, 100, 200)
+            tp_edge = Canny(tp_img, 100, 200)
+            bg_pic = cvtColor(bg_edge, COLOR_GRAY2RGB)
+            tp_pic = cvtColor(tp_edge, COLOR_GRAY2RGB)
+            res = matchTemplate(bg_pic, tp_pic, TM_CCOEFF_NORMED)
+            min_val, max_val, min_loc, max_loc = minMaxLoc(res)
+            th = tp_pic.shape[0]
+            tw = tp_pic.shape[1]
+            tl = max_loc
+            br = (tl[0] + tw, tl[1] + th)
+            # a = rectangle(bg_img, tl, br, (0, 0, 255), 2)
+            # imwrite('a.png', a)
+            # imwrite('bg.png', bg_img)
+            # imwrite('tp.png', tp_img)
+        except Exception as e:
+            return self.result.bad(code=1, message=f'图片处理错误：{e}')
+        # print(br[0])
+        return self.result.good(code=0, message=br)
 
     def __str__(self):
         str1 = f'{self.str_}'
