@@ -28,7 +28,8 @@ class RedisCli:
             password=self.password,
             port=self.port,
             socket_connect_timeout=self.socket_connect_timeout,
-            max_connections=self.max_connections
+            max_connections=self.max_connections,
+            db=self.db
         )
         self.con = redis.Redis(connection_pool=RedisCli.pool)
 

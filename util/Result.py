@@ -27,6 +27,9 @@ class Result:
         for k, v in need.items():
             self.__setattr__(str(k), v)
 
+    def dict(self):
+        return self.__dict__
+
     @staticmethod
     def good(message='', code=0):
         return {'message': message, 'code': code}

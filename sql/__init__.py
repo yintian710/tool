@@ -11,7 +11,7 @@ from .connection import get_db, get_cur
 
 get_db = get_db
 get_cur = get_cur
-db = Mysql()
+db = Mysql
 
 
 if __name__ == '__main__':
